@@ -45,13 +45,14 @@ class LoginController extends Controller
     {
         try {
             $this->validate ($request, [
+//                'user_name' => 'required|min:3|max:30',
                 'email' => 'required|min:3|max:128',
                 'password' => 'required|min:6',
             ]);
 
             $remember = $request->has('remember') ? true : false;
 
-            if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')], $remember)) {
+            if (Auth::attempt([/*'user_name' => $request->input('user_name'),*/'email' => $request->input('email'), 'password' => $request->input('password')], $remember)) {
                 return redirect(route('account'))->with('success', trans('messages.auth.successLogin'));
             }
 
@@ -61,5 +62,10 @@ class LoginController extends Controller
             \Log::error($e->getMessage());
             return back()->with('error', trans('messages.auth.errorLogin'));
         }
+    }
+
+    public function logout(Request $request) {
+        Auth::logout();
+        return redirect('/login');
     }
 }

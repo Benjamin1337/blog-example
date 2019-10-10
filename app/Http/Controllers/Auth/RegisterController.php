@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class RegisterController extends Controller
 {
@@ -46,14 +47,15 @@ class RegisterController extends Controller
     {
         try {
             $this->validator($request->all())->validate();
-        } catch (\Exception $e) {
+        } catch (ValidationException $e) {
             return back()->with('error', $e->getMessage());
         }
 
+        $user_name = $request->input('user_name');
         $email = $request->input('email');
         $password = $request->input('password');
         $isAuth = $request->has('remember') ? true : false;
-        $objUser = $this->create(['email' => $email, 'password' => $password]);
+        $objUser = $this->create(['user_name' => $user_name, 'email' => $email, 'password' => $password]);
 
         if (!($objUser instanceof User)) {
             //throw new \Exception("Can't create object");
@@ -76,6 +78,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
+            'user_name' => ['required', 'string', 'min:3','max:30', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:128', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -85,6 +88,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
+            'user_name' => $data['user_name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);

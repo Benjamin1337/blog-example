@@ -42,8 +42,10 @@
     {!! csrf_field() !!}
     <img class="mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
     <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
+    <label for="inputUsername" class="sr-only">Почта</label>
+    <input name="user_name" id="inputUsername" class="form-control" placeholder="Имя пользователя" required autofocus>
     <label for="inputEmail" class="sr-only">Почта</label>
-    <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Почта" required autofocus>
+    <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Почта" required>
     <label for="inputPassword" class="sr-only">Пароль</label>
     <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Пароль" required>
     <label for="inputPassword" class="sr-only">Подтвердите пароль</label>
