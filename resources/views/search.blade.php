@@ -9,13 +9,12 @@
             <div class="col-md-8">
 
                 <h2 class="my-4">
-                    <small>Secondary Text</small>
+                    <small>Результаты поиска</small>
                 </h2>
 
                 <!-- Blog Post -->
                 @foreach($articles as $article)
                     <div class="card mb-4">
-                        <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
                         <div class="card-body">
                             <h2 class="card-title">{!! $article->title !!}</h2>
                             <p class="card-text">{!! $article->short_text !!}</p>
@@ -29,28 +28,13 @@
                                     'id' => $article->article_id,
                                     'slug' => str_slug($article->title),
                                     ]) !!}" class="btn btn-primary">Читать полностью &rarr;</a>
-
                         </div>
-
-
-
                         <div class="card-footer text-muted">
-                            Опубликовал <a href="#">{{--{{$article->author}}--}}</a>
-{{--                            в {!! $article->created_at->format('H:i - d/m/Y') !!}--}}
+                            Опубликовал <a href="/user/{{$article->user_id}}">{{_getUser($article->user_id)->user_name}}</a>
+                            в {!! $article->created_at !!}
                         </div>
                     </div>
             @endforeach
-
-
-            <!-- Pagination -->
-                <ul class="pagination justify-content-center mb-4">
-                    <li class="page-item">
-                        <a class="page-link" href="#">&larr; Older</a>
-                    </li>
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#">Newer &rarr;</a>
-                    </li>
-                </ul>
 
             </div>
 

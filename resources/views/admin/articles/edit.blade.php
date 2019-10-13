@@ -5,7 +5,7 @@
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
         <h1>Редактировать статью</h1>
         <br>
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             {!! csrf_field() !!}
             <img class="card-img-top" style="max-width: 730px" src="{{ asset('/storage/' . $article->image['file_name']) }}" alt="Card image cap">
             <p>Выбор изображения поста

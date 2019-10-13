@@ -141,10 +141,10 @@ class ArticlesController extends Controller
         $objArticle->title = $request->input('title');
         $objArticle->short_text = $request->input('short_text');
         $objArticle->full_text = $request->input('description');
-        $objImage = Image::all()->where('article_id', $id);
+        $objImage = Image::where('article_id', $id);
 
         if ($objImage && $request->file('image')) {
-            Storage::delete($objImage->file_name);
+           $objImage->delete();
         }
         if ($request->file('image')) {
             $objImage->create([

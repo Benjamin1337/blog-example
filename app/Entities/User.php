@@ -66,6 +66,6 @@ class User extends Authenticatable
 
     {
 
-        return $this->hasMany(Article::class, 'user_id', 'user_id');
+        return $this->hasMany(Article::class, 'user_id', 'user_id')->where('status', 1);
     }
 }

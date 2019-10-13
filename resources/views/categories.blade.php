@@ -18,22 +18,37 @@
 
                 @foreach($articles as $article)
                     <div class="card mb-4">
+                        <img class="card-img-top" style="max-width: 730px" src="{{ asset('/storage/' . $article->image['file_name']) }}" alt="Card image cap">
                         <div class="card-body">
                             <h2 class="card-title">{!! $article->title !!}</h2>
                             <p class="card-text">{!! $article->short_text !!}</p>
                             <p class="card-text">
                                 @foreach($article->tags as $tags )
+
                                     <a href="/tags/{{$tags->id}}" style="height: 100%;" class="d-inline-block badge badge-secondary"><span class="m-1">{{ $tags->name }}</span></a>
                                 @endforeach
                             </p>
                             <a href="{!! route('blog.show', [
-                                    'id' => $article->id,
+                                    'id' => $article->article_id,
                                     'slug' => str_slug($article->title),
                                     ]) !!}" class="btn btn-primary">Читать полностью &rarr;</a>
 
+                            <div class="card-interaction" data-post-id="{{ $article->article_id }}">
+                                @if(Auth::check())
+                                    <a href="" class="badge like">{{ Auth::user()->like()->where('article_id', $article->article_id)->first() ? Auth::user()->like()->where('article_id', $article->article_id)->first()->like == 1 ? 'Вам понравилось' : 'Мне нравится' : 'Мне нравится' }}</a> |
+                                    <a href="" class="badge like">{{ Auth::user()->like()->where('article_id', $article->article_id)->first() ? Auth::user()->like()->where('article_id', $article->article_id)->first()->like == 0 ? 'Вам не понравилось' : 'Мне не нравится' : 'Мне не нравится' }}</a>
+
+                                @endif
+                                <p class="badge like-count">Понравилось: {{ $article->totalLikes->count()}}</p>
+                                <p class="badge view-count">Просмотры: {{ $article->view_count}}</p>
+                            </div>
+
                         </div>
+
+
+
                         <div class="card-footer text-muted">
-                            Опубликовал <a href="#">{{$article->author}}</a>
+                            Опубликовал <a href="/user/{{$article->user['user_id']}}">{{$article->user['user_name']}}</a>
                             в {!! $article->created_at->format('H:i - d/m/Y') !!}
                         </div>
                     </div>

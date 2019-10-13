@@ -20,7 +20,7 @@ class Category extends Model
 
     {
 
-        return $this->belongsToMany(Article::class,'category_articles', 'category_id', 'article_id');
+        return $this->belongsToMany(Article::class,'category_articles', 'category_id', 'article_id')->where('status', 1);
     }
 
 

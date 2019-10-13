@@ -21,7 +21,9 @@ class CategoriesController extends Controller
             return [
                 'id'         => $posts->id,
                 'title'      => $posts->title,
-
+                'image'      => $posts->image,
+                'likes'      => $posts->like,
+                'totalLikes' => $posts->totalLikes,
                 'short_text' => $posts->short_text,
                 'created_at' => $posts->created_at,
             ];
