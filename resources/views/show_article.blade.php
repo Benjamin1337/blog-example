@@ -17,7 +17,7 @@
             <div class="">
             <span class="text-left">
                 от
-                <a href="#">{!! $article->author !!}</a>
+                <a href="{{$article->user['user_id']}}">{{$article->user['user_name']}}</a>
             </span>
             <br>
             <!-- Date/Time -->
@@ -32,21 +32,24 @@
             </div>
 
             <!-- Preview Image -->
-            <img class="img-fluid rounded" src="http://placehold.it/900x300" alt="">
+            <img class="img-fluid rounded" src="{{ asset('/storage/' . $article->image['file_name']) }}" alt="">
 
             <hr>
 
             <!-- Post Content -->
             <p class="lead">{!! $article->short_text !!}</p>
 
-            <p>{!! $article->full_text !!}</p>
+            <p style="max-width: 730px">{!! $article->full_text !!}</p>
+            <div class="card-interaction" data-post-id="{{ $article->article_id }}">
+                @if(Auth::check())
+                    <a href="" class="badge like">{{ Auth::user()->like()->where('article_id', $article->article_id)->first() ? Auth::user()->like()->where('article_id', $article->article_id)->first()->like == 1 ? 'Вам понравилось' : 'Мне нравится' : 'Мне нравится' }}</a> |
+                    <a href="" class="badge like">{{ Auth::user()->like()->where('article_id', $article->article_id)->first() ? Auth::user()->like()->where('article_id', $article->article_id)->first()->like == 0 ? 'Вам не понравилось' : 'Мне не нравится' : 'Мне не нравится' }}</a>
 
-           {{-- <blockquote class="blockquote">
-                <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                <footer class="blockquote-footer">Someone famous in
-                    <cite title="Source Title">Source Title</cite>
-                </footer>
-            </blockquote>--}}
+                @endif
+                <p class="badge like-count">Понравилось: {{ $article->totalLikes->count()}}</p>
+                <p class="badge view-count">Просмотры: {{ $article->view_count}}</p>
+            </div>
+
             <hr>
 
             <!-- Comments Form -->
@@ -57,7 +60,7 @@
 
                     <form method="post" action="{!! route('comments.add') !!}">
                         {!! csrf_field() !!}
-                        <input type="hidden" value="{{$article->id }}" name="article_id">
+                        <input type="hidden" value="{{$article->article_id }}" name="article_id">
                         <div class="form-group">
                             <textarea class="form-control" name="comment" rows="3"></textarea>
                         </div>
@@ -72,39 +75,12 @@
                 <div class="media mb-4 comment">
                     <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
                     <div class="media-body">
-                        <h5 class="mt-0">{{_getUser($comment->user_id)->username}}
+                        <h5 class="mt-0">{{_getUser($comment->user_id)->user_name}}
                         <small>{{$comment->created_at->format('H:i - d/m/Y')}}</small></h5>
                         {!! $comment->comment !!}
                     </div>
                 </div>
             @endforeach
-
-
-            {{--<!-- Comment with nested comments -->
-            <div class="media mb-4">
-                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                <div class="media-body">
-                    <h5 class="mt-0">Commenter Name</h5>
-                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-
-                    <div class="media mt-4">
-                        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                        <div class="media-body">
-                            <h5 class="mt-0">Commenter Name</h5>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                        </div>
-                    </div>
-
-                    <div class="media mt-4">
-                        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                        <div class="media-body">
-                            <h5 class="mt-0">Commenter Name</h5>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                        </div>
-                    </div>
-
-                </div>
-            </div>--}}
 
         </div>
 
@@ -124,39 +100,28 @@
             </div>
 
             <!-- Categories Widget -->
-            <div class="card my-4">
-                <h5 class="card-header">Categories</h5>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <ul class="list-unstyled mb-0">
-                                <li>
-                                    <a href="#">Web Design</a>
-                                </li>
-                                <li>
-                                    <a href="#">HTML</a>
-                                </li>
-                                <li>
-                                    <a href="#">Freebies</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-6">
-                            <ul class="list-unstyled mb-0">
-                                <li>
-                                    <a href="#">JavaScript</a>
-                                </li>
-                                <li>
-                                    <a href="#">CSS</a>
-                                </li>
-                                <li>
-                                    <a href="#">Tutorials</a>
-                                </li>
-                            </ul>
+            <categories>
+                <div class="card my-4">
+                    <h5 class="card-header">Популярные категории</h5>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <ul class="list-unstyled mb-0">
+
+                                    @foreach($categories as $category)
+
+                                        <li>
+                                            <a href="/categories/{{ $category->id }}">{{$category->title}}</a>
+                                        </li>
+
+                                    @endforeach
+                                </ul>
+                            </div>
+
                         </div>
                     </div>
                 </div>
-            </div>
+            </categories>
 
             <!-- Side Widget -->
             <div class="card my-4">
@@ -169,9 +134,43 @@
 
         </div>
 
+            <posts>
+                <div class="card my-4">
+                    <h5 class="card-header">Смотрите также
+                        <small>{{$article->categories[0]->title}}</small></h5>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <ul class="list-unstyled mb-0">
+
+                                    @foreach($similiar_articles[0] as $sa)
+
+                                        <li>
+                                            <a href="{!! route('blog.show', [
+                                    'id' => $sa->article_id,
+                                    'slug' => str_slug($sa->title),
+                                    ]) !!}">{{$sa->title}}</a>
+                                        </li>
+                                    @endforeach
+
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </posts>
+
     </div>
 
+    </div>
 </div>
 </article>
+
+<script src="{{asset('/js/like.js')}}"></script>
+<script type="text/javascript">
+    var token = '{{csrf_token()}}';
+    var urlLike = '{{ route ('like') }}';
+</script>
 
 @stop

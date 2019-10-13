@@ -9,6 +9,7 @@ Route::get('/', 'ArticlesController@index');
 Route::get('/article/{id}/{slug}', 'ArticlesController@showArticle')->where('id', '\d+')->name('blog.show');
 Route::get('/tags/{id}', 'TagsController@index')->where('id', '\d+')->name('tag.show');
 Route::get('/categories/{id}', 'CategoriesController@index')->where('id', '\d+')->name('category.show');
+Route::get('/user/{id}', 'UsersController@index')->where('id', '\d+')->name('user.show');
 
 /**
  * Поиск
@@ -37,6 +38,7 @@ Route::group(['middleware' => 'auth'], function() {
         return redirect (route('login'));
     })->name('logout');
     Route::get('/my/account/', 'AccountController@index')->name('account');
+    Route::post('/like', 'ArticlesController@likeArticle')->name('like');
 
     //admin
     Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function() {
@@ -71,10 +73,16 @@ Route::group(['middleware' => 'auth'], function() {
 
         Route::get('/articles', 'Admin\ArticlesController@index')->name('articles');
         Route::get('/articles/add', 'Admin\ArticlesController@addArticle')->name('articles.add');
-        Route::post('/articles/add', 'Admin\ArticlesController@addRequestArticle');
+        Route::post('/articles/add', 'Admin\ArticlesController@addRequestArticle')->name('add.request.article');
         Route::get('/articles/edit/{id}', 'Admin\ArticlesController@editArticle')->where('id', '\d+')->name('articles.edit');
         Route::post('/articles/edit/{id}', 'Admin\ArticlesController@editRequestArticle')->where('id', '\d+');
         Route::delete('/articles/delete', 'Admin\ArticlesController@deleteArticle')->name('articles.delete');
+        Route::get('/articles/accepted/{id}', 'Admin\ArticlesController@acceptArticle')
+            ->where('id','\d+')->name('articles.accepted');
+        Route::get('/articles/decline/{id}', 'Admin\ArticlesController@declineArticle')
+            ->where('id','\d+')->name('articles.decline');
+
+//        Route::post('/images/upload/', 'Admin\ImageController@uploadImage')->name('image.upload');
 
         /**
          * Пользователи

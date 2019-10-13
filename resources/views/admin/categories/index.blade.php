@@ -14,6 +14,7 @@
                 <th>#</th>
                 <th>Наименование</th>
                 <th>Описание</th>
+                <th>Количество публикаций</th>
                 <th>Дата добавления</th>
                 <th>Действия</th>
             </tr>
@@ -22,6 +23,7 @@
                 <td>{{ $category->id }}</td>
                 <td>{{ $category->title }}</td>
                 <td>{!! $category->description !!}</td>
+                <td>{{ $category->posts->count() }}</td>
                 <td>{{ $category->created_at->format('d-m-Y H:i') }}</td>
                 <td><a href="{!! route('categories.edit', ['id' => $category->id]) !!}">Редактировать</a> |
                     <a href="" class="delete" rel="{{ $category->id }}">Удалить</a></td>

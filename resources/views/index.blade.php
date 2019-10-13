@@ -15,7 +15,7 @@
                 <!-- Blog Post -->
                 @foreach($articles as $article)
                 <div class="card mb-4">
-                    <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
+                    <img class="card-img-top" style="max-width: 730px" src="{{ asset('/storage/' . $article->image['file_name']) }}" alt="Card image cap">
                     <div class="card-body">
                         <h2 class="card-title">{!! $article->title !!}</h2>
                         <p class="card-text">{!! $article->short_text !!}</p>
@@ -26,16 +26,26 @@
                             @endforeach
                         </p>
                         <a href="{!! route('blog.show', [
-                                    'id' => $article->id,
+                                    'id' => $article->article_id,
                                     'slug' => str_slug($article->title),
                                     ]) !!}" class="btn btn-primary">Читать полностью &rarr;</a>
+
+                        <div class="card-interaction" data-post-id="{{ $article->article_id }}">
+                            @if(Auth::check())
+                                <a href="" class="badge like">{{ Auth::user()->like()->where('article_id', $article->article_id)->first() ? Auth::user()->like()->where('article_id', $article->article_id)->first()->like == 1 ? 'Вам понравилось' : 'Мне нравится' : 'Мне нравится' }}</a> |
+                                <a href="" class="badge like">{{ Auth::user()->like()->where('article_id', $article->article_id)->first() ? Auth::user()->like()->where('article_id', $article->article_id)->first()->like == 0 ? 'Вам не понравилось' : 'Мне не нравится' : 'Мне не нравится' }}</a>
+
+                            @endif
+                                <p class="badge like-count">Понравилось: {{ $article->totalLikes->count()}}</p>
+                                <p class="badge view-count">Просмотры: {{ $article->view_count}}</p>
+                        </div>
 
                     </div>
 
 
 
                     <div class="card-footer text-muted">
-                        Опубликовал <a href="#">{{$article->author}}</a>
+                        Опубликовал <a href="/user/{{$article->user['user_id']}}">{{$article->user['user_name']}}</a>
                         в {!! $article->created_at->format('H:i - d/m/Y') !!}
                     </div>
                 </div>
@@ -44,15 +54,11 @@
 
                 <!-- Pagination -->
                 <ul class="pagination justify-content-center mb-4">
-                    <li class="page-item">
-                        <a class="page-link" href="#">&larr; Older</a>
-                    </li>
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#">Newer &rarr;</a>
-                    </li>
+                    {{ $articles->links() }}
                 </ul>
 
             </div>
+
 
             <!-- Sidebar Widgets Column -->
             <div class="col-md-4">
@@ -103,6 +109,7 @@
                     </div>
                 </div>
 
+
             </div>
 
         </div>
@@ -110,6 +117,11 @@
 
     </div>
     <!-- /.container -->
+    <script src="{{asset('/js/like.js')}}"></script>
+    <script type="text/javascript">
+        var token = '{{csrf_token()}}';
+        var urlLike = '{{ route ('like') }}';
+    </script>
 
 
 @stop

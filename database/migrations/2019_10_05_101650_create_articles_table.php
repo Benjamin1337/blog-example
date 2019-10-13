@@ -17,8 +17,9 @@ class CreateArticlesTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->text('short_text');
-            $table->text('full_text');
-            $table->string('author')->nullable();
+            $table->longText('full_text');
+            $table->boolean('status')->nullable();
+            $table->integer('user_id')->nullable();
             $table->timestamps();
         });
     }

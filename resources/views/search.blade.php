@@ -26,7 +26,7 @@
 {{--                                @endforeach--}}
                             </p>
                             <a href="{!! route('blog.show', [
-                                    'id' => $article->id,
+                                    'id' => $article->article_id,
                                     'slug' => str_slug($article->title),
                                     ]) !!}" class="btn btn-primary">Читать полностью &rarr;</a>
 
@@ -35,7 +35,7 @@
 
 
                         <div class="card-footer text-muted">
-                            Опубликовал <a href="#">{{$article->author}}</a>
+                            Опубликовал <a href="#">{{--{{$article->author}}--}}</a>
 {{--                            в {!! $article->created_at->format('H:i - d/m/Y') !!}--}}
                         </div>
                     </div>

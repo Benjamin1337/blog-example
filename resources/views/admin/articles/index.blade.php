@@ -21,10 +21,21 @@
                 <tr>
                     <td>{{ $article->id }}</td>
                     <td>{{ $article->title }}</td>
-                    <td>{!! $article->author !!}</td>
+                   {{-- <td>{!! $article->author !!}</td>--}}
                     <td>{{ $article->created_at->format('d-m-Y H:i') }}</td>
-                    <td><a href="{!! route('articles.edit', ['id' => $article->id]) !!}">Редактировать</a> |
-                        <a href="" class="delete" rel="{{ $article->id }}">Удалить</a></td>
+
+                    <td><a href="{!! route('articles.edit', ['id' => $article->article_id]) !!}">Редактировать</a> |
+                        <a href="" class="delete" rel="{{ $article->article_id }}">Удалить</a></td>
+                    <a><td>
+                        @if ($article->status)
+                            Опубликована
+                            <a href="{!! route('articles.decline', ['id' => $article->article_id]) !!}">Снять с публикации</a>
+                        @else
+                            На модерации
+                            <a href="{!! route('articles.accepted', ['id' => $article->article_id]) !!}">Опубликовать</a>
+                        @endif
+                        </td>
+                    </a>
                 </tr>
             @endforeach
         </table>

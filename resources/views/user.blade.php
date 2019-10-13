@@ -9,9 +9,9 @@
             <!-- Blog Entries Column -->
             <div class="col-md-8">
 
-                <h2 class="my-4">
-                    <small>#{{$current_tag}}</small>
-                </h2>
+                <h3 class="my-2">
+                    <small>Посты пользователя <strong>{{$user->user_name}}</strong></small>
+                </h3>
 
                 <!-- Blog Post -->
 
@@ -26,17 +26,19 @@
                                 @endforeach
                             </p>
                             <a href="{!! route('blog.show', [
-                                    'id' => $article->id,
+                                    'id' => $article->article_id,
                                     'slug' => str_slug($article->title),
                                     ]) !!}" class="btn btn-primary">Читать полностью &rarr;</a>
 
                         </div>
                         <div class="card-footer text-muted">
-                            Опубликовал <a href="#">{{--{{$article->author}}--}}</a>
+                            Опубликовал <a href="#">{{$user->user_name}}</a>
                             в {!! $article->created_at->format('H:i - d/m/Y') !!}
                         </div>
                     </div>
                 @endforeach
+
+
 
             </div>
 

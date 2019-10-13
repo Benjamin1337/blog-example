@@ -10,17 +10,15 @@
     <meta name="author" content="">
 
     <title>Beta blog</title>
+    <script src="{{ URL('blog/vendor/jquery/jquery.min.js') }}" type="text/javascript"></script>
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-typeahead/2.10.6/jquery.typeahead.min.js" integrity="sha256-W+Cxk9exgjON2p73M4RcoKvCpQUZ+IjXhEzZk6rlg9M=" crossorigin="anonymous"></script>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ URL('blog/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- Bootstrap core JavaScript -->
-    <script src="{{ URL('blog/vendor/jquery/jquery.min.js') }}" type="text/javascript"></script>
     <script src="{{ URL('blog/vendor/bootstrap/js/bootstrap.bundle.min.js') }}" type="text/javascript"></script>
-    <script src="{{ URL('blog/vendor/typeahead/jquery.typeahead.js') }}" type="text/javascript"></script>
 
     <!-- Custom styles for this template -->
     <link href="{{ URL('blog/css/blog.css') }}" rel="stylesheet">
@@ -41,26 +39,18 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/">Свежее
+                <li class="nav-item">
+                    <a class="nav-link" href="/">На главную
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Юмор</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Истории</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Блог</a>
-                </li>
+
                 @if(\Auth::check())
-                <li class="nav-item ">
-                    <a class="nav-link text-white" href="/my/account">{{\Auth::user()->user_name}}</a>
+                <li class="nav-item @if (isset($user) && $user->user_id == \Auth::user()->user_id) active @endif">
+                    <a class="nav-link " href="/user/{{\Auth::user()->user_id}}">{{\Auth::user()->user_name}}</a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link text-white" href="/logout">Выйти</a>
+                    <a class="nav-link " href="/logout">Выйти</a>
                 </li>
                     @else
                 <li class="nav-item ">
@@ -93,14 +83,14 @@
 </footer>
 
 <script>
-    var route = "{{url('/autocomplete')}}";
-    $('search').typeahead({
-        source: function (term,process) {
-            return $.get(route, {term:term}, function (data) {
-                return process(data);
-            })
-        }
-    })
+    {{--var route = "{{url('/autocomplete')}}";--}}
+    {{--$('search').typeahead({--}}
+    {{--    source: function (term,process) {--}}
+    {{--        return $.get(route, {term:term}, function (data) {--}}
+    {{--            return process(data);--}}
+    {{--        })--}}
+    {{--    }--}}
+    {{--})--}}
 </script>
 
 

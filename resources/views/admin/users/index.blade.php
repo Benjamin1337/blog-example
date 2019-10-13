@@ -17,8 +17,8 @@
             </tr>
             @foreach($users as $user)
                 <tr>
-                    <td>{{ $user->id }}</td>
-                    <td>{{ $user->username }}</td>
+                    <td>{{ $user->user_id }}</td>
+                    <td>{{ $user->user_name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>@if ($user->adminPermissions) Администратор
                         @else                         Пользователь @endif</td>

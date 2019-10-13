@@ -7,14 +7,34 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v3.8.5">
+    <meta name="csrf_token" content="{{ csrf_token() }}" />
     <title>Dashboard Template · Bootstrap</title>
 
     <link rel="stylesheet" href="/css/dashboard.css">
 
+    <script src="{{ URL('blog/vendor/jquery/jquery.min.js') }}" type="text/javascript"></script>
+    <link href="{{ URL('blog/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <script src="{{ URL('blog/vendor/bootstrap/js/bootstrap.bundle.min.js') }}" type="text/javascript"></script>
+
+    <!-- Summernote -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <script src="{{ URL('blog/vendor/summernote/summernote.js') }}" type="text/javascript"></script>
+    <script src="{{ URL('blog/vendor/summernote/lang/summernote-ru-RU.js') }}" type="text/javascript"></script>
+    <link href="{{ URL('blog/vendor/summernote/summernote.css') }}" rel="stylesheet">
+    <link href="{{ URL('blog/vendor/summernote/summernote-bs4.css') }}" rel="stylesheet">
+
     <!-- Bootstrap core CSS -->
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
+    <!-- Bootstrap core JavaScript -->
+
+
+
+
+    <!-- Custom styles for this template -->
+   {{-- <link href="{{ URL('blog/css/blog.css') }}" rel="stylesheet">
+    <link href="{{ URL('blog/css/blog-home.css') }}" rel="stylesheet">
+    <link href="{{ URL('blog/css/blog-post.css') }}" rel="stylesheet">--}}
 
     <style>
         .bd-placeholder-img {
@@ -80,39 +100,6 @@
                         <a class="nav-link {{isset($current) && $current == 'tags' ? 'active' : ''}}" href="{!! route('tags') !!}">
                             <span data-feather="file"></span>
                             Тэги
-                        </a>
-                    </li>
-                </ul>
-
-                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                    <span>Saved reports</span>
-                    <a class="d-flex align-items-center text-muted" href="#">
-                        <span data-feather="plus-circle"></span>
-                    </a>
-                </h6>
-                <ul class="nav flex-column mb-2">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Current month
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Last quarter
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Social engagement
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Year-end sale
                         </a>
                     </li>
                 </ul>

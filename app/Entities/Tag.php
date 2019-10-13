@@ -22,13 +22,13 @@ class Tag extends Model
 
     {
 
-        return $this->belongsToMany(Article::class,'article_tags', 'tag_id', 'article_id');
+        return $this->belongsToMany(Article::class,'article_tags', 'tag_id', 'article_id')->where('status', 1);
     }
 
     public function showTags ()
     {
 
-        $usedTags = TagArticle::all()->pluck('tag_id');
+        $usedTags = TagArticle::distinct()->pluck('tag_id');
 
         $tags = [];
         foreach ($usedTags as $ut){
